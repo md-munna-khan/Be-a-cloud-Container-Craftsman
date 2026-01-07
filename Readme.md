@@ -208,8 +208,60 @@ or
 
 
 # Be a cloud-Container-Craftsman
-
 ![alt text](image.png)
 - for exam suppose you work node js 14 in any application a and after some month later you update node js version and then you open your before application while you run 14 version and somehow any code not work in 20 version this is a problem 
 and docker this problem solved easily  any application any version run easily
 - the power of docker anyone can run this environment any version its doesnt matter which version he used
+
+## 1-3 Virtual Machine vs. Docker Containers
+
+![alt text](image-1.png)
+- when we used virtual machine every operationg system have own different virtual os and whose project we can run install all dependencies and tools example we install node 20 version if we share this project other person to anyway but problem is any virtual machine only run one project 
+but we always not working just a one project we work may project but probelem is diffrent project set up again virtaula and more project same to same install and huge memory space he catched this is a big probelem  you ssd and harddisk is full
+
+then this problem  solved  is docker doecker not installed any virtual project and operating 
+![alt text](image-2.png)
+Virtual Machine (VM) vs Docker Containers
+1. Virtual Machine (VM)
+
+A Virtual Machine is a fully virtualized computer that runs on a physical machine using a hypervisor.
+
+Key points:
+
+Each VM has its own operating system (Guest OS)
+
+Requires more CPU, RAM, and storage
+
+Slower startup time
+
+Strong isolation between systems
+
+Suitable for legacy applications and full OS environments
+
+2. Docker Containers
+
+A Docker Container is a lightweight environment that packages an application with its dependencies.
+
+Key points:
+
+Containers share the host OS kernel
+
+Very lightweight and fast to start
+
+Uses fewer system resources
+
+Ideal for microservices and cloud-native applications
+
+Easier to scale and deploy
+| Feature          | Virtual Machine         | Docker Container      |
+| ---------------- | ----------------------- | --------------------- |
+| Operating System | Separate OS for each VM | Shares host OS        |
+| Size             | Large (GBs)             | Small (MBs)           |
+| Startup Time     | Slow                    | Very fast             |
+| Resource Usage   | High                    | Low                   |
+| Isolation        | Strong                  | Moderate              |
+| Best Use Case    | Legacy apps, full OS    | Microservices, DevOps |
+
+One-line  Answer:
+
+Virtual Machines run full operating systems with high resource overhead, while Docker containers share the host OS kernel, making them faster, lightweight, and better suited for modern application development.
