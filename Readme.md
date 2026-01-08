@@ -278,3 +278,13 @@ wsl --install -d Devian
 - then set a suer name and and password then you loggin
 - logout command exit 
 - docker --help check all commands
+
+## 1-8 Overview of Docker Tools
+![alt text](image-5.png)
+- dockar engine (linux by default got it) but windows not support linux
+thats why we install virtual machine and run docker
+- docker dekstop grphical interface use for windows and linux but most of the case we use terminal for docker 
+
+- in the github we got docker hub for collabrating
+- many docker container  in the project as like frontend backend database 
+all to keep together we can use docker compose 
