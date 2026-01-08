@@ -265,3 +265,16 @@ Easier to scale and deploy
 One-line  Answer:
 
 Virtual Machines run full operating systems with high resource overhead, while Docker containers share the host OS kernel, making them faster, lightweight, and better suited for modern application development.
+
+## 1-4 Docker Setup
+![alt text](image-3.png)
+## 1-5 Docker Installation [Windows]
+- search feature in your windows and turn on this feature
+![alt text](image-4.png)
+- docker install command 
+```bash
+wsl --install -d Devian
+```
+- then set a suer name and and password then you loggin
+- logout command exit 
+- docker --help check all commands
