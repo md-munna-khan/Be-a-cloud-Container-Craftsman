@@ -288,3 +288,45 @@ thats why we install virtual machine and run docker
 - in the github we got docker hub for collabrating
 - many docker container  in the project as like frontend backend database 
 all to keep together we can use docker compose 
+
+## 1-9 Configuring VS Code & Creating The First Container
+
+- first docker instruction file 
+
+- add in the root file and file name : Dockerfile 
+- dont use npm install 
+- crate docker container instruction
+```bash
+FROM node:20
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 5000
+
+CMD [ "node", "app.mjs" ]
+```
+
+- now create image and image is blue print of docker container
+- and before this command run must check is your engine running? and are you logged in? if answer no must do it first
+
+```bash
+docker build .
+# build mean image build and . dot mean root directory
+```
+ afeter run this command you can see a image in the docker dekstop and copy the id 
+ ![alt text](image-6.png)
+ 
+ then command run the terminal and and port number docker port number 5000 we define and our port is also run in 5000 they are container network and our system  port   is connection build it 
+ ```bash
+ docker run -p 5000:5000  433242sfarwe
+ # docker run past image id 
+ ```
+ and docker image is blueprint of docker container run 
+ - and we can handle the container start and stop
+ ![alt text](image-7.png)
