@@ -38,3 +38,23 @@ docker run -it node
 # show update version of node if you not install update version if we closed it then show status  exited  
 
 ```
+##  2-3 Writing Our First Dockerfile
+Key Points to Remember
+
+Dockerfile instructions are executed top to bottom
+
+RUN → runs at build time
+
+CMD → runs at container start time
+
+Keep Dockerfiles small and optimized
+
+If you want, I can also explain:
+
+Dockerfile for React
+
+Dockerfile for Next.js
+
+Multi-stage builds
+
+Common Dockerfile interview questions
