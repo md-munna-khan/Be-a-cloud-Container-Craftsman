@@ -58,3 +58,43 @@ Dockerfile for Next.js
 Multi-stage builds
 
 Common Dockerfile interview questions
+
+
+Building a Docker Image & Running a Container (Detailed Explanation)
+
+## Docker works in two major phases:
+
+1️ Build an Image (from a Dockerfile)
+2️ Run a Container (from that image)
+
+Understanding this clearly is very important for backend, DevOps, and interview preparation.
+
+1️ What is a Docker Image?
+
+A Docker Image is a read-only template that contains everything your application needs to run:
+
+Base OS (Alpine, Ubuntu, etc.)
+
+Runtime (Node.js, Python, Java, etc.)
+
+Application source code
+
+Dependencies (npm packages, libraries)
+
+Environment configuration
+
+Startup command
+
+ Images are immutable — once built, they never change.
+
+2️ What is a Docker Container?
+
+A Container is a running instance of an image.
+
+You can run multiple containers from the same image
+
+Containers are lightweight and isolated
+
+Containers can be started, stopped, restarted, or deleted
+
+ Image →  Container
