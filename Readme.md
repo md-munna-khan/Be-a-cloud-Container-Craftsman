@@ -98,3 +98,35 @@ Containers are lightweight and isolated
 Containers can be started, stopped, restarted, or deleted
 
  Image →  Container
+
+ Building an Image & Running a Container (Docker Explained)
+
+This phrase describes the basic Docker workflow:
+first you build an image, then you run a container from that image.
+
+- 1 What is a Docker Image?
+
+A Docker image is a read-only template that contains:
+
+Application code
+
+Runtime (Node, Python, etc.)
+
+Libraries & dependencies
+
+Configuration
+
+ An image does not run by itself.
+It is used to create containers.
+
+- 2️ What is a Docker Container?
+
+A Docker container is a running instance of an image.
+
+Simple analogy:
+
+Image = Blueprint / Recipe
+
+Container = Running app / Cooked food
+
+You can run multiple containers from the same image.
