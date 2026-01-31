@@ -61,7 +61,6 @@ Common Dockerfile interview questions
 
 
 Building a Docker Image & Running a Container (Detailed Explanation)
-
 ## Docker works in two major phases:
 
 1️ Build an Image (from a Dockerfile)
@@ -130,3 +129,80 @@ Image = Blueprint / Recipe
 Container = Running app / Cooked food
 
 You can run multiple containers from the same image.
+
+Naming & Tagging Containers and Images (Docker) — Explained Simply
+
+When working with Docker, naming and tagging help you identify, manage, and version your containers and images easily.
+
+1️⃣ Naming Containers
+What is container naming?
+
+A container name is a human-readable label for a running (or stopped) container.
+If you don’t give a name, Docker automatically assigns a random one.
+
+Why is it important?
+
+Easy to remember
+
+Easier to stop, start, or inspect containers
+
+Avoids using long container IDs
+
+Example
+docker run --name my-app-container nginx
+
+
+Now you can use:
+
+docker stop my-app-container
+docker start my-app-container
+docker logs my-app-container
+
+
+📌 Rule:
+
+Container names must be unique
+
+One name = one container
+
+2️⃣ Naming Images
+What is an image name?
+
+An image name identifies a Docker image.
+It usually follows this format:
+
+repository-name:tag
+
+Example
+node
+node:18
+nginx:latest
+
+
+node → repository name
+
+18 → tag (version)
+
+If no tag is provided, Docker uses:
+
+:latest
+
+3️⃣ Tagging Images
+What is tagging?
+
+A tag is used to define a version or variant of an image.
+
+Tags help you:
+
+Manage versions
+
+Roll back safely
+
+Avoid breaking changes
+
+Example
+docker pull node:18
+docker pull node:20
+
+
+Both are same image type, but different versions.
