@@ -206,3 +206,113 @@ docker pull node:20
 
 
 Both are same image type, but different versions.
+
+
+1. Create a Docker Hub Account
+
+Go to Docker Hub and sign up.
+
+Your username will be used in the image name.
+
+Docker Hub image format:
+
+<dockerhub-username>/<image-name>:<tag>
+
+
+Example:
+
+munna/myapp:1.0
+
+2. Login to Docker Hub from Terminal
+docker login
+
+
+Enter:
+
+Docker Hub username
+
+Password (or access token)
+
+Verify login:
+
+docker info | findstr Username
+
+3. Build Your Docker Image
+
+From the folder containing Dockerfile:
+
+docker build -t myapp .
+
+
+Check image:
+
+docker images
+
+4. Tag the Image Correctly
+
+Docker Hub requires tagging with your username.
+
+docker tag myapp munna/myapp:1.0
+
+
+Check again:
+
+docker images
+
+
+You should now see:
+
+munna/myapp   1.0
+
+5. Push Image to Docker Hub
+docker push munna/myapp:1.0
+
+
+If successful, you’ll see layer upload logs.
+
+6. Verify on Docker Hub
+
+Open Docker Hub
+
+Go to Repositories
+
+Your image will be there 🎉
+
+7. Pull & Run from Anywhere
+
+On any machine:
+
+docker pull munna/myapp:1.0
+docker run -p 3000:3000 munna/myapp:1.0
+
+Common Mistakes (Very Important)
+
+❌ Forgot to tag with username
+❌ Not logged in
+❌ Repo name mismatch
+❌ Trying to push private repo on free plan
+
+Best Practices
+
+Use version tags:
+
+myapp:1.0
+myapp:1.1
+myapp:latest
+
+
+Keep images small (use node:alpine)
+
+Add .dockerignore
+
+One-Line Summary (Interview-Ready)
+
+Build → Tag → Login → Push
+
+If you want, I can:
+
+Push a Node / React / MERN app
+
+Explain private vs public repos
+
+Show CI/CD auto push using GitHub Actions
