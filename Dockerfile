@@ -1,4 +1,4 @@
-FROM node:24
+FROM node:20
 
 WORKDIR /app
 
@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 5000
 
-CMD [ "node", "app.mjs" ]
+CMD ["npm", "run", "dev"]
