@@ -612,3 +612,95 @@ Easier scaling
 DevOps automation
 
 They are the foundation of modern cloud & microservices.
+
+
+## Dockerfile 
+FROM node:20
+
+This sets the base image for the container.
+
+It uses an official Node.js image with Node version 20
+
+Node.js and npm are already installed
+
+Ensures the app runs in a consistent environment everywhere
+
+WORKDIR /app
+
+This sets the working directory inside the container.
+
+All commands after this will run inside /app
+
+If /app does not exist, Docker creates it automatically
+
+COPY package.json .
+
+This copies only the package.json file into the container.
+
+Why not copy everything yet?
+
+This helps with Docker layer caching
+
+If dependencies don’t change, Docker won’t reinstall them every time
+
+Makes builds faster
+
+RUN npm install
+
+This installs all dependencies listed in package.json.
+
+Runs during the image build process
+
+Creates the node_modules folder inside the container
+
+COPY . .
+
+This copies all project files into the container’s working directory.
+
+Source code
+
+Config files
+
+Routes, controllers, etc.
+
+EXPOSE 5000
+
+This documents that the container will listen on port 5000.
+
+It does not open the port by itself
+
+Used for clarity and by Docker tools
+
+CMD ["npm", "run", "dev"]
+
+This defines the default command that runs when the container starts.
+
+Runs npm run dev
+
+Usually starts the development server (e.g., using nodemon)
+
+Summary
+
+This Dockerfile:
+
+Uses Node.js 20
+
+Sets /app as the working directory
+
+Installs dependencies
+
+Copies the application code
+
+Exposes port 5000
+
+Starts the app using npm run dev
+
+If you want, I can also explain:
+
+Production-ready Dockerfile
+
+Difference between CMD and RUN
+
+Why dev is not recommended for production
+
+How to run this container using docker run or docker-compose
