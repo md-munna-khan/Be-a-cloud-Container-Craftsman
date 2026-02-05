@@ -704,3 +704,384 @@ Difference between CMD and RUN
 Why dev is not recommended for production
 
 How to run this container using docker run or docker-compose
+##  Deep Dive Into Docker Images
+1️⃣ What a Docker Image actually is (not the marketing version)
+
+A Docker Image is not:
+
+a VM
+
+a running thing
+
+a full OS
+
+A Docker Image is:
+
+an immutable, layered filesystem snapshot + metadata
+
+Think of it as:
+
+Base filesystem
++ changes layer 1
++ changes layer 2
++ changes layer 3
+------------------
+= Docker Image
+
+
+It’s read-only by design.
+
+2️⃣ Image vs Container (internals, not definition)
+Image	Container
+Blueprint	Running instance
+Read-only layers	Writable layer added
+Can be shared	Lives on a host
+No process	Has PID 1
+
+When you run an image:
+
+docker run node:20
+
+
+Docker does:
+
+Takes image layers (read-only)
+
+Adds one writable layer on top
+
+Starts a process inside it
+
+That writable layer dies when container dies.
+
+3️⃣ Image Layers — the MOST important concept
+
+Every line in a Dockerfile creates a layer.
+
+Example:
+
+FROM node:20
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
+
+
+Layers:
+
+node:20 base image
+
+set working directory
+
+copy package.json
+
+install dependencies
+
+copy source code
+
+Each layer:
+
+is cached
+
+is immutable
+
+only stores the difference from previous layer
+
+This is why Docker is fast.
+
+4️⃣ Layer caching (why Dockerfiles must be written carefully)
+
+Docker builds images top → bottom.
+
+If a layer changes:
+👉 all layers after it are rebuilt
+
+Bad Dockerfile:
+
+COPY . .
+RUN npm install
+
+
+Any code change = npm install reruns ❌
+
+Good Dockerfile:
+
+COPY package.json .
+RUN npm install
+COPY . .
+
+
+Dependencies cached ✔
+Huge speed difference.
+
+5️⃣ Union File System (OverlayFS)
+
+Docker doesn’t merge files physically.
+
+It uses Union FS:
+
+overlayfs (Linux)
+
+aufs (older)
+
+Visual:
+
+Layer 1 (base)
+Layer 2 (deps)
+Layer 3 (app)
+----------------
+Merged View (container sees this)
+
+
+Container thinks it’s one filesystem.
+Reality: many stacked layers.
+
+6️⃣ Why Images are Immutable (critical design choice)
+
+You cannot change an image.
+
+If you do:
+
+apt install curl
+
+
+Inside container:
+
+curl exists only in writable layer
+
+image remains unchanged
+
+To persist:
+👉 you must build a new image
+
+This gives:
+
+reproducibility
+
+rollback safety
+
+identical environments
+
+7️⃣ What is inside an Image (metadata level)
+
+An image includes:
+
+filesystem layers
+
+environment variables
+
+default command
+
+entrypoint
+
+exposed ports
+
+working directory
+
+user
+
+You can inspect:
+
+docker image inspect node:20
+
+
+Important fields:
+
+Cmd
+
+Entrypoint
+
+Env
+
+RootFS.Layers
+
+8️⃣ CMD vs ENTRYPOINT (deep clarity)
+ENTRYPOINT
+
+fixed executable
+
+CMD
+
+default arguments
+
+Example:
+
+ENTRYPOINT ["node"]
+CMD ["server.js"]
+
+
+Running:
+
+docker run app
+→ node server.js
+
+docker run app index.js
+→ node index.js
+
+
+If you use only CMD:
+👉 users can override everything
+
+9️⃣ Base Images (this choice matters A LOT)
+
+Common base images:
+
+Image	Use case
+ubuntu	debugging, tools
+node	dev-friendly
+node:alpine	production
+scratch	ultra-minimal
+distroless	secure prod
+Why alpine?
+
+~5MB
+
+fewer vulnerabilities
+
+faster pulls
+
+But:
+
+musl libc (some native libs break)
+
+harder debugging
+
+🔟 Multi-stage Builds (professional-level Docker)
+
+This is huge.
+
+# Build stage
+FROM node:20 AS builder
+WORKDIR /app
+COPY . .
+RUN npm install && npm run build
+
+# Runtime stage
+FROM node:20-alpine
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+CMD ["node", "dist/main.js"]
+
+
+Result:
+
+build tools ❌
+
+node_modules dev deps ❌
+
+smaller image
+
+safer
+
+1️⃣1️⃣ Image Size = Performance + Security
+
+Large image problems:
+
+slow CI/CD
+
+slow deploy
+
+more CVEs
+
+higher attack surface
+
+Rules:
+
+minimal base image
+
+multi-stage builds
+
+clean cache
+
+RUN npm install && npm cache clean --force
+
+1️⃣2️⃣ Image Tags (don’t ignore this)
+
+Bad:
+
+FROM node:latest
+
+
+Why?
+
+breaking changes
+
+non-reproducible builds
+
+Good:
+
+FROM node:20.11-alpine
+
+
+Pin versions. Always.
+
+1️⃣3️⃣ Docker Image Security (real talk)
+
+Images can contain:
+
+secrets
+
+SSH keys
+
+.env
+
+API tokens
+
+Once pushed:
+❌ cannot be removed from history easily
+
+Rules:
+
+never COPY .env
+
+use .dockerignore
+
+secrets via env vars / vault
+
+1️⃣4️⃣ Image Registry (how images are shared)
+
+Docker Image = content-addressed
+
+Stored as:
+
+layers (by hash)
+
+manifest (JSON)
+
+config
+
+Registries:
+
+Docker Hub
+
+GHCR
+
+AWS ECR
+
+GCR
+
+Same layers across images are reused → bandwidth saving.
+
+1️⃣5️⃣ Why Docker Images are NOT VMs
+VM	Docker Image
+Full OS	Shared host kernel
+Heavy	Lightweight
+Slow boot	Instant
+Hypervisor	Kernel namespaces
+
+Docker = process isolation, not hardware virtualization.
+
+1️⃣6️⃣ Common Myths (busted)
+
+❌ “Docker images contain OS kernel”
+✔ No, kernel is host’s
+
+❌ “Containers are less secure”
+✔ Misconfigured containers are
+
+❌ “Docker replaces Kubernetes”
+✔ Docker builds images, K8s runs them
+
+Mental Model (remember this)
+
+Docker Image = Immutable, layered filesystem snapshot + instructions
+Container = Image + writable layer + running process
