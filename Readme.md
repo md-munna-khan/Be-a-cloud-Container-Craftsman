@@ -1085,3 +1085,114 @@ Mental Model (remember this)
 
 Docker Image = Immutable, layered filesystem snapshot + instructions
 Container = Image + writable layer + running process
+
+# What does “Managing Images & Containers” mean?
+
+It refers to creating, organizing, running, updating, and cleaning up Docker images and containers so your applications run efficiently and reliably.
+
+1️⃣ Managing Docker Images
+What is a Docker Image?
+
+A Docker image is a read-only blueprint that contains:
+
+Application code
+
+Runtime (Node, Python, Java, etc.)
+
+Dependencies
+
+Configuration
+
+You cannot run an image directly — it is used to create containers.
+
+Common image management tasks
+Build an image
+docker build -t my-app .
+
+
+Creates an image from a Dockerfile
+
+-t → tag (name) the image
+
+List images
+docker images
+
+Pull an image from registry
+docker pull node:20
+
+
+Downloads an image from Docker Hub.
+
+Remove an image
+docker rmi my-app
+
+2️⃣ Managing Docker Containers
+What is a Container?
+
+A container is a running instance of an image.
+
+Think:
+
+Image = class
+
+Container = object
+
+Common container management tasks
+Run a container
+docker run -d -p 3000:3000 my-app
+
+
+-d → detached mode
+
+-p → port mapping
+
+List running containers
+docker ps
+
+
+All containers (including stopped):
+
+docker ps -a
+
+Stop a container
+docker stop container_id
+
+Remove a container
+docker rm container_id
+
+Execute command inside container
+docker exec -it container_id bash
+
+
+Used for debugging.
+
+3️⃣ Image vs Container (important difference)
+Image	Container
+Blueprint	Running instance
+Read-only	Read/write
+Lightweight	Uses system resources
+Used to create containers	Runs the app
+4️⃣ Cleaning up (very important in real systems)
+Remove unused containers
+docker container prune
+
+Remove unused images
+docker image prune
+
+Remove everything unused
+docker system prune
+
+
+Prevents disk space issues.
+
+5️⃣ Why managing images & containers matters
+
+Saves disk space
+
+Improves performance
+
+Avoids version conflicts
+
+Makes deployments predictable
+
+Keeps environments clean
