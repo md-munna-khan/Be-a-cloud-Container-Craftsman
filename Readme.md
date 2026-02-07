@@ -1196,3 +1196,114 @@ Avoids version conflicts
 Makes deployments predictable
 
 Keeps environments clean
+
+
+What Does “Pulling” Mean?
+
+Pulling means downloading a Docker image from Docker Hub to your local machine so you can run it.
+
+1. Make Sure Docker Is Running
+
+Check Docker:
+
+docker --version
+
+
+If Docker is installed and running, it will show the version.
+
+2. Basic Docker Pull️ Pull Command
+
+Syntax:
+
+docker pull <username>/<image-name>:<tag>
+
+
+Example:
+
+docker pull munnakhan/my-app:1.0
+
+
+munnakhan → Docker Hub username
+
+my-app → Image name
+
+1.0 → Tag (version)
+
+If you don’t mention a tag, Docker uses latest by default.
+
+docker pull munnakhan/my-app
+
+3. What Happens During Pull?
+
+Docker:
+
+Downloads image layers
+
+Reuses layers if already cached
+
+Verifies image integrity
+
+You’ll see output like:
+
+Pulling from munnakhan/my-app
+Digest: sha256:xxxx
+Status: Downloaded newer image
+
+4. Check Pulled Images
+
+To confirm the image is downloaded:
+
+docker images
+
+
+You should see:
+
+munnakhan/my-app   1.0
+
+5. Run the Pulled Image
+
+Example:
+
+docker run -p 5000:5000 munnakhan/my-app:1.0
+
+
+-p 5000:5000 → maps container port to local port
+
+Container starts using the pulled image
+
+6. Pulling a Private Image
+
+First login:
+
+docker login
+
+
+Then pull:
+
+docker pull munnakhan/private-app:1.0
+
+
+Without login ❌ → access denied.
+
+7. Pull a Specific Platform (Advanced)
+
+Useful for M1/M2 Macs or servers:
+
+docker pull --platform linux/amd64 munnakhan/my-app:1.0
+
+Common Mistakes to Avoid
+
+❌ Wrong image name or tag
+❌ Image is private and not logged in
+❌ Typo in username
+❌ Docker not running
+
+Quick Summary
+
+Image exists on Docker Hub
+
+Run docker pull username/image:tag
+
+Check with docker images
+
+Run using docker run
