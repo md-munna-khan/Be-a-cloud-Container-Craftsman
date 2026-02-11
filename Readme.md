@@ -1307,3 +1307,76 @@ Run docker pull username/image:tag
 Check with docker images
 
 Run using docker run
+Pulling a Docker image to Docker Hub is actually not the correct term.
+
+In Docker terminology:
+
+Pull → Download an image from Docker Hub (or another registry) to your local machine.
+
+Push → Upload your local image to Docker Hub.
+
+So if you want to upload your image to Docker Hub, the correct process is pushing an image.
+
+Let me explain both clearly.
+
+1️⃣ Pulling an Image (Download from Docker Hub)
+
+When you pull an image, you are downloading it from Docker Hub to your local system.
+
+Example:
+docker pull nginx
+
+
+This command:
+
+Connects to Docker Hub
+
+Downloads the nginx image
+
+Stores it in your local Docker environment
+
+You can verify:
+
+docker images
+
+2️⃣ Pushing an Image to Docker Hub (Upload)
+
+If you created your own Docker image and want to upload it to Docker Hub, follow these steps:
+
+Step 1: Login to Docker Hub
+docker login
+
+
+Enter your Docker Hub username and password.
+
+Step 2: Tag Your Image
+
+Docker Hub requires this format:
+
+username/repository:tag
+
+
+Example:
+
+docker tag myapp munna123/myapp:1.0
+
+
+Here:
+
+myapp → local image name
+
+munna123 → your Docker Hub username
+
+myapp → repository name
+
+1.0 → version tag
+
+Step 3: Push the Image
+docker push munna123/myapp:1.0
+
+
+This uploads your image to Docker Hub.
+
+Simple Flow Diagram
+
+Build Image → Tag Image → Login → Push → Image available on Docker Hub
